@@ -15,3 +15,8 @@ data/*
 cache/*
 *.sqlite
 *.db
+.claude/
+
+# Implementation plan
+docs/implementation-plan.md
+docs/plan-step-goals-guide.md
