@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import operator
-from typing import Annotated, Literal, TypedDict
+from typing import Annotated, Literal, Optional
 
 from langchain_core.messages import AnyMessage
 from langgraph.graph.message import add_messages
+from typing_extensions import TypedDict
 
 from .reducers import append_unique_by_id, keep_latest, merge_dict, merge_sources_by_id
 
@@ -131,7 +132,7 @@ class BranchTask(TypedDict):
     branch: BranchName              # Target branch (literature, dataset or repository)
     objective: str                  # Plain-text objective
     search_queries: list[str]       # Recommended search queries
-    required_output: list[str]      # Expected outputs to deliver
+    required_outputs: list[str]      # Expected outputs to deliver
     success_criteria: list[str]     # Rubric criteria for the agent
     retry_instruction: str | None   # Guidance if the task failed quality checks
 
@@ -184,11 +185,11 @@ class Critique(TypedDict):
     issue_type: IssueType               # Type of issue
     description: str                    # Description of issue
     target_branch: BranchName | None    # Target branch of critique
-    recommend_action: str               # Recommended action
+    recommended_action: str             # Recommended action
 
 class ReflectionDecision(TypedDict):
     approved: bool                   # Whether reflection passed or failed
-    next_action: Literal['accept', 'retry_branch', 'replan', 'forced_finalized']  # Next action
+    next_action: Literal['accept', 'retry_branch', 'replan', 'forced_finalize']  # Next action
     target_branch: BranchName | None # Target branch of critique
     reason: str                      # Reason for decision
     revised_instruction: str | None  # Revised instruction for next action
@@ -214,7 +215,7 @@ class ResearchState(TypedDict):
     literature_findings: Annotated[list[Finding], append_unique_by_id('finding_id')]        # Output findings from Literature Branch.
     dataset_findings: Annotated[list[Finding], append_unique_by_id('finding_id')]           # Output findings from Dataset Branch.
     repository_findings: Annotated[list[Finding], append_unique_by_id('finding_id')]        # Output findings from Repository Branch.
-    sources: Annotated[SourceRecord, merge_sources_by_id]                                   # Consolidated references. Merges metadata on overlap.
+    sources: Annotated[list[SourceRecord], merge_sources_by_id]                             # Consolidated references. Merges metadata on overlap.
     extraction_cache: Annotated[dict, merge_dict]                                           # Cached raw page text from URLs to avoid redundant fetching.
     synthesized_claims: Annotated[list[SynthesizedClaim], append_unique_by_id('claim_id')]  # Processed claims. Overwrites on retry iteration.
     quality_score: Annotated[QualityScore, keep_latest]                                     # Scoring metrics for synthesized results.
