@@ -1,5 +1,6 @@
 from researchgraph.config import Settings
 
+
 def test_settings_defaults_without_env_key():
     settings = Settings(
         openrouter_api_key="just-testing",
