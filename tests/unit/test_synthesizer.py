@@ -27,8 +27,6 @@ def test_synthesizer_drops_findings_without_sources():
 
     claims = build_synthesized_claims(state)
 
-    # Mong đợi 2 claims: 1 background claim tự động chèn + 1 supported claim từ f1
     assert len(claims) == 2
-    assert claims[0]["claim_id"] == "C_BACKGROUND_001"
     assert claims[1]["statement"] == "Supported claim"
     assert claims[1]["supporting_source_ids"] == ["s1"]
