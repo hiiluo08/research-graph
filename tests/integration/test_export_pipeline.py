@@ -1,4 +1,5 @@
 from researchgraph.agents.report_writer import build_report_markdown
+from researchgraph.reporting.html_renderer import markdown_to_html
 
 REQUIRED_SECTIONS = [
     "Executive Summary",
@@ -57,3 +58,10 @@ def test_report_contains_required_sections():
     for section in REQUIRED_SECTIONS:
         assert f"## {section}" in markdown
     assert "[S1]" in markdown
+
+def test_markdown_to_html_renders_heading():
+    html = markdown_to_html("# Hello\n\n## Executive Summary")
+
+    assert "<h1" in html
+    assert "Hello" in html
+    assert "Executive Summary" in html
