@@ -157,12 +157,8 @@ An itemized list of bugs or information gaps raised by the Critic Agent.
 ```python
 class Critique(TypedDict):
     critique_id: str                   # Unique ID
-    severity: Literal["low", "medium", "high"]
-    issue_type: Literal[
-        "missing_evidence", "weak_source", "conflict", 
-        "stale_source", "scope_gap", "citation_error", 
-        "unclear_synthesis"
-    ]
+    severity: Literal["low", "medium", "high", "critical"]
+    issue_type: IssueType               # Type of issue (see state.py)
     description: str                   # Detailed error report
     target_branch: Optional[BranchName] # Responsible agent (if applicable)
     recommended_action: str            # Recommended remediation action
