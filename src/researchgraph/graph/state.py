@@ -166,7 +166,7 @@ class SynthesizedClaim(TypedDict):
     statement: str                      # Claim statement
     category: ClaimCategory             # Category of the claim
     supporting_source_ids: list[str]    # List of source IDs supporting the claim
-    conficting_source_ids: list[str]    # List of source IDs conflicting with the claim
+    conflicting_source_ids: list[str]    # List of source IDs conflicting with the claim
     confidence: float                   # Confidence score (0-1)
     notes: list[str]                    # Additional notes
 
